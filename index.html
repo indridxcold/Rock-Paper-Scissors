@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Page Title</title>
+  </head>
+  <body>
+    <script>
+      //Create function getComputerChoice
+      //  Obtain random number 1-100
+      //  if 1-33 rock
+      //  else if 34-66 paper
+      //  else if 67-99 scissors
+      //  else run function again
+      //  log computer choice//-->        
+    
+     let randomNumber = Math.floor(Math.random() * 100) + 1;
+      function getComputerChoice () {
+        let computerChoice;
+        if(randomNumber <= 33) {
+        computerChoice = "Rock";
+        } else if(randomNumber > 33 && randomNumber < 67) {
+        computerChoice = "Paper";
+        } else if(randomNumber > 66 && randomNumber < 100) {
+        computerChoice = "Scissors";
+        } else getComputerChoice();
+        console.log(computerChoice);
+      }
+      
+        
+      
+ 
+    </script>
+  </body>
+</html>
