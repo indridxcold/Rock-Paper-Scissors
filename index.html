@@ -14,9 +14,10 @@
       //  else run function again
       //  log computer choice//-->        
     
-      let randomNumber = Math.floor(Math.random() * 100) + 1;
+      let randomNumber
       let computerChoice;
       function getComputerChoice () {
+        randomNumber = Math.floor(Math.random() * 100) + 1;
         if(randomNumber <= 33) {
         computerChoice = "rock";
         } else if(randomNumber > 33 && randomNumber < 67) {
@@ -24,7 +25,6 @@
         } else if(randomNumber > 66 && randomNumber < 100) {
         computerChoice = "scissors";
         } else getComputerChoice();
-        console.log(computerChoice);
       }
       
       // Create function getHumanChoice
@@ -39,6 +39,9 @@
     //else console.log "That is cheating!"
 
     let humanChoice;
+    let humanScore = 0;
+    let computerScore = 0;
+
     function getHumanChoice() {
      humanChoice = prompt("Choose rock, paper, or scissors.").toLowerCase();}
     function outcome() {
@@ -46,24 +49,43 @@
         console.log("It's a draw; try again!");
       } else if(humanChoice === "rock" && computerChoice === "scissors") {
         console.log("You win; rock crushes scissors!");
+        humanScore ++;
       } else if(humanChoice === "rock" && computerChoice === "paper") {
         console.log("You lose; paper covers rock!");
+        computerScore ++;
       } else if(humanChoice === "paper" && computerChoice === "rock") {
         console.log("You win; paper covers rock!");
+        humanScore ++;
       } else if(humanChoice === "paper" && computerChoice === "scissors") {
         console.log("You lose; scissors cut paper!");
+        computerScore ++;
       } else if(humanChoice === "scissors" && computerChoice === "paper") {
         console.log("You win; scissors cut paper!");
+        humanScore ++;
       } else if(humanChoice === "scissors" && computerChoice === "rock") {
         console.log("You lose; rock crushes scissors");
+        computerScore ++;
       } else {
         console.log("That is cheating!");
       }
     }
+    function playGame(humanChoice, computerChoice){
     getComputerChoice();
     getHumanChoice();
     console.log(humanChoice);
     outcome();
+    console.log("Your score is " + humanScore);
+    console.log("The bot's score is " + computerScore);
+    if((humanScore + computerScore) <= 4) {
+      playGame();
+    } else if((humanScore + computerScore) > 4 && humanScore > computerScore) {
+      console.log("You defeated the bot, you win!");
+    } else if((humanScore + computerScore) > 4 && humanScore < computerScore) {
+      console.log("The bot has defeated you; you lose!");
+    }
+    }
+    playGame();
+  
 
     
       
