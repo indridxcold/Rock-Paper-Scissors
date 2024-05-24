@@ -2,75 +2,124 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Page Title</title>
+    <title>Rock, Paper, Scissors Game - Best of 5</title>
   </head>
   <body>
+    <h3>Choose your weapon:</h3>
+    <h1>ROCK, PAPER, or SCISSORS!!!</h1>
+    <div id="buttonBox">
+      <button id="rock"><img src="./images/rockIcon.png" width="256px" height="256px"/></button>
+      <button id="paper"><img src="./images/paperIcon.png"></button>
+      <button id="scissors"><img src="./images/scissorsIcon.png"></button>
+    </div>
+    <div id="botBox"><img class="botImage"></div>
+    <div class="results"></div>
+    <div class="scores"></div>
+
+    
     <script> 
-      let randomNumber
+      let randomNumber;
+      let botBox = document.querySelector('#botBox');
+      let botImage = document.createElement('img');
       let computerChoice;
-      function getComputerChoice () {
+      function getComputerChoice() {
         randomNumber = Math.floor(Math.random() * 100) + 1;
         if(randomNumber <= 33) {
         computerChoice = "rock";
+        botImage.src = "./images/rockIcon.png";
+        
         } else if(randomNumber > 33 && randomNumber < 67) {
         computerChoice = "paper";
+        botImage.src = "./images/paperIcon.png";
         } else if(randomNumber > 66 && randomNumber < 100) {
         computerChoice = "scissors";
-        } else getComputerChoice();
+        botImage.src = "./images/scissorsIcon.png";
+        } else {getComputerChoice()};
+        botBox.innerText = `The bot chose ${computerChoice}.`;
+        botBox.appendChild(botImage);
+        botImage.style.height = "256px";
+        botImage.style.width = "256px";
       }
 
-    let humanChoice;
-    let humanScore = 0;
-    let computerScore = 0;
-
-    function getHumanChoice() {
-     humanChoice = prompt("Choose rock, paper, or scissors.").toLowerCase();}
-    function outcome() {
-      if(humanChoice === computerChoice) {
-        console.log("It's a draw; try again!");
-      } else if(humanChoice === "rock" && computerChoice === "scissors") {
-        console.log("You win; rock crushes scissors!");
-        humanScore ++;
-      } else if(humanChoice === "rock" && computerChoice === "paper") {
-        console.log("You lose; paper covers rock!");
-        computerScore ++;
-      } else if(humanChoice === "paper" && computerChoice === "rock") {
-        console.log("You win; paper covers rock!");
-        humanScore ++;
-      } else if(humanChoice === "paper" && computerChoice === "scissors") {
-        console.log("You lose; scissors cut paper!");
-        computerScore ++;
-      } else if(humanChoice === "scissors" && computerChoice === "paper") {
-        console.log("You win; scissors cut paper!");
-        humanScore ++;
-      } else if(humanChoice === "scissors" && computerChoice === "rock") {
-        console.log("You lose; rock crushes scissors");
-        computerScore ++;
-      } else {
-        console.log("That is cheating!");
+      function replayReset() {
+        if((humanScore + computerScore) > 4 && humanScore < computerScore) {
+          alert(`You have been defeated by the bot. The final score is Bot: ${computerScore} You: ${humanScore}`);
+          humanScore = 0;
+          computerScore = 0;
+          results.innerText = null;
+          botImage.innerText = null;
+        } else if ((humanScore + computerScore) > 4 && humanScore > computerScore) {
+          alert(`You have defeated the bot!. The final score is You: ${humanScore} Bot: ${computerScore}`);
+          humanScore = 0;
+          computerScore = 0;
+          results.innerText = null;
+          botBox.innerText = null;
+        }
       }
-    }
-    function playGame(humanChoice, computerChoice){
-    getComputerChoice();
-    getHumanChoice();
-    console.log(humanChoice);
-    outcome();
-    console.log("Your score is " + humanScore);
-    console.log("The bot's score is " + computerScore);
-    if((humanScore + computerScore) <= 4) {
-      playGame();
-    } else if((humanScore + computerScore) > 4 && humanScore > computerScore) {
-      console.log("You defeated the bot, you win!");
-    } else if((humanScore + computerScore) > 4 && humanScore < computerScore) {
-      console.log("The bot has defeated you; you lose!");
-    }
-    }
-    playGame();
-  
 
-    
-      
- 
+      let humanChoice;
+      let humanScore = 0;
+      let computerScore = 0;
+
+      let rock = document.querySelector('#rock');
+        rock.addEventListener('click', (event) => {
+          humanChoice = 'rock';
+          getComputerChoice();
+          outcome();
+          replayReset();
+          scores.innerHTML = `Your score is ${humanScore}. The bot's score is ${computerScore}`;
+        });
+      let paper = document.querySelector('#paper');
+        paper.addEventListener('click', (event) => {
+          humanChoice ='paper';
+          getComputerChoice();
+          outcome();
+          replayReset();
+          scores.innerHTML = `Your score is ${humanScore}. The bot's score is ${computerScore}`;
+        });
+      let scissors = document.querySelector('#scissors');
+        scissors.addEventListener('click', (event) => {
+          humanChoice = 'scissors';
+          getComputerChoice();
+          outcome();
+          replayReset();
+          scores.innerHTML = `Your score is ${humanScore}. The bot's score is ${computerScore}`;
+        });
+
+      function playGame(humanChoice,computerChoice) {
+        getComputerChoice();
+        outcome();
+        }
+      let results = document.querySelector('.results');
+
+      function outcome() {
+        if(humanChoice === computerChoice) {
+          results.innerText = "It's a draw; try again!"
+        } else if(humanChoice === "rock" && computerChoice === "scissors") {
+          results.innerText = "You win; rock crushes scissors!";
+          humanScore ++;
+        } else if(humanChoice === "rock" && computerChoice === "paper") {
+          results.innerText = "You lose; paper covers rock!";
+          computerScore ++;
+        } else if(humanChoice === "paper" && computerChoice === "rock") {
+          results.innerText = "You win; paper covers rock!";
+          humanScore ++;
+        } else if(humanChoice === "paper" && computerChoice === "scissors") {
+          results.innerText = "You lose; scissors cut paper!";
+          computerScore ++;
+        } else if(humanChoice === "scissors" && computerChoice === "paper") {
+          results.innerText = "You win; scissors cut paper!";
+          humanScore ++;
+        } else if(humanChoice === "scissors" && computerChoice === "rock") {
+          results.innerText = "You lose; rock crushes scissors";
+          computerScore ++;
+        } else {
+          results.innerText = "That is cheating!";
+        }
+      }
+      let scores = document.querySelector(".scores");
+        scores.innerHTML = `Your score is: ${humanScore}. The bot's score is ${computerScore}`;
+        
     </script>
   </body>
 </html>
